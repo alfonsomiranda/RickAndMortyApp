@@ -28,17 +28,11 @@ struct CharacterEntity: Codable {
     let species: String
     let type: String
     let gender: String
-    let origin, location: Location
+    let origin, location: LocationEntity
     let image: String
     let episode: [String]
     let url: String
     let created: String
-}
-
-// MARK: - Location
-struct Location: Codable {
-    let name: String
-    let url: String
 }
 
 enum Status: String, Codable {

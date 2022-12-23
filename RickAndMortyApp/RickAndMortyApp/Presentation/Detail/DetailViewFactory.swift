@@ -15,10 +15,16 @@ struct DetailViewFactory {
 
 private extension DetailViewFactory {
     static func viewModel(character: Character) -> DetailViewModel {
-        DetailViewModel(character: character, addNewFavoriteUseCase: AddNewFavoriteUseCaseImplementation(repository: repository()))
+        DetailViewModel(character: character,
+                        getLocationUseCase: GetLocationUseCaseImplementation(repository: locationRepository()),
+                        addNewFavoriteUseCase: AddNewFavoriteUseCaseImplementation(repository: repository()))
     }
 
     static func repository() -> FavoriteRepository {
         FavoriteRepositoryImplementation()
+    }
+
+    static func locationRepository() -> LocationRepository {
+        LocationRepositoryImplementation()
     }
 }

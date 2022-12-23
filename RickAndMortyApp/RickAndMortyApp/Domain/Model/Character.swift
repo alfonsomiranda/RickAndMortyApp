@@ -27,8 +27,8 @@ struct Character: Identifiable, Codable {
         self.species = entity.species
         self.type = entity.type
         self.gender = entity.gender
-        self.origin = entity.origin
-        self.location = entity.location
+        self.origin = Location(entity: entity.origin)
+        self.location = Location(entity: entity.location)
         self.image = entity.image
         self.episode = entity.episode
         self.url = entity.url

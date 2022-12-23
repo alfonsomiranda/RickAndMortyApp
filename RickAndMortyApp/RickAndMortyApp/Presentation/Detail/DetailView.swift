@@ -11,9 +11,21 @@ struct DetailView: View {
     @ObservedObject var viewModel: DetailViewModel
 
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-        Button("Favorito") {
-            viewModel.saveCharacters()
+        VStack {
+            if let character = viewModel.character {
+                CharacterCell(character: character)
+            }
+            Text(viewModel.location?.name ?? "")
+            Button("Favorito") {
+                viewModel.saveCharacters()
+            }
+            Spacer()
+        }
+        .navigationTitle(viewModel.character?.name ?? "")
+        .onAppear {
+            Task {
+                await viewModel.getLocationDetail()
+            }
         }
     }
 }
