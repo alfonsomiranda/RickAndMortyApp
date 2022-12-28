@@ -30,7 +30,7 @@ class CharacterRepositoryTests: XCTestCase {
         characters = nil
     }
 
-    func testGetTopMoviesWhenSuccess() async throws {
+    func testGetCharactersWhenSuccess() async throws {
         do {
             networking.result = try .success(JSONEncoder().encode(characters))
             networking.response = HTTPURLResponse(url: URL(string: "http://google.com")!,
@@ -45,7 +45,7 @@ class CharacterRepositoryTests: XCTestCase {
         }
     }
 
-    func testGetTopMoviesWhenErrorCode() async throws {
+    func testGetCharactersWhenErrorCode() async throws {
         do {
             networking.result = try .success(JSONEncoder().encode(characters))
             networking.response = HTTPURLResponse(url: URL(string: "http://google.com")!,
@@ -60,7 +60,7 @@ class CharacterRepositoryTests: XCTestCase {
         }
     }
 
-    func testGetTopMoviesWhenFail() async throws {
+    func testGetCharactersWhenFail() async throws {
         do {
             networking.result = .failure(APIError.generic)
             networking.response = HTTPURLResponse(url: URL(string: "http://google.com")!,
