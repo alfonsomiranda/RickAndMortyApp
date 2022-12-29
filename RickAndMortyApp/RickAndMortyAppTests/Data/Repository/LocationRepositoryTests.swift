@@ -9,6 +9,15 @@ import XCTest
 
 @testable import RickAndMortyApp
 
+private extension URL {
+    static var defaultURL: Self { URL(string: "http://google.com")! }
+}
+
+private extension Int {
+    static var okHttpCode: Self { 200 }
+    static var koHttpCode: Self { 400 }
+}
+
 class LocationRepositoryTests: XCTestCase {
     private var networking: NetworkingMock!
     private var repository: LocationRepository!
@@ -34,8 +43,8 @@ class LocationRepositoryTests: XCTestCase {
     func testGetLocationWhenSuccess() async throws {
         do {
             networking.result = try .success(JSONEncoder().encode(location))
-            networking.response = HTTPURLResponse(url: URL(string: "http://google.com")!,
-                                                  statusCode: 200,
+            networking.response = HTTPURLResponse(url: .defaultURL,
+                                                  statusCode: .okHttpCode,
                                                   httpVersion: "",
                                                   headerFields: nil)!
             repository.api = APIRest(networking: networking)
@@ -49,23 +58,23 @@ class LocationRepositoryTests: XCTestCase {
     func testGetLocationWhenErrorCode() async throws {
         do {
             networking.result = try .success(JSONEncoder().encode(location))
-            networking.response = HTTPURLResponse(url: URL(string: "http://google.com")!,
-                                                  statusCode: 400,
+            networking.response = HTTPURLResponse(url: .defaultURL,
+                                                  statusCode: .koHttpCode,
                                                   httpVersion: "",
                                                   headerFields: nil)!
             repository.api = APIRest(networking: networking)
             let newLocation = try await repository.getLocation(1)
             XCTAssertNil(newLocation)
         } catch(let error) {
-            XCTAssertEqual((error as? APIError), .httpError(error: 400))
+            XCTAssertEqual((error as? APIError), .httpError(error: .koHttpCode))
         }
     }
 
     func testGetLocationWhenFail() async throws {
         do {
             networking.result = .failure(APIError.generic)
-            networking.response = HTTPURLResponse(url: URL(string: "http://google.com")!,
-                                                  statusCode: 200,
+            networking.response = HTTPURLResponse(url: .defaultURL,
+                                                  statusCode: .okHttpCode,
                                                   httpVersion: "",
                                                   headerFields: nil)!
             repository.api = APIRest(networking: networking)

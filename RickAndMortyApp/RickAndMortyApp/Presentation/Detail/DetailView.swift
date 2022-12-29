@@ -7,6 +7,11 @@
 
 import SwiftUI
 
+private extension LocalizedStringKey {
+    static var removeFavorites: Self { "REMOVE_FAVORITE" }
+    static var addFavorites: Self { "ADD_FAVORITE" }
+}
+
 private extension CGFloat {
     static var size: Self { 250 }
 }
@@ -32,7 +37,7 @@ struct DetailView: View {
             Text(viewModel.location?.name ?? "")
             Text(viewModel.location?.type ?? "")
             Text(viewModel.location?.dimension ?? "")
-            let favoriteTitle = (viewModel.isFavorite) ? "Remove favorite" : "Add favorite"
+            let favoriteTitle: LocalizedStringKey = (viewModel.isFavorite) ? .removeFavorites : .addFavorites
             Button(favoriteTitle) {
                 viewModel.updateFavoriteCharacters()
             }

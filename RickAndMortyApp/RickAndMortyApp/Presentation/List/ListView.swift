@@ -7,6 +7,11 @@
 
 import SwiftUI
 
+private extension LocalizedStringKey {
+    static var title: Self { "APP_TITLE" }
+    static var favorites: Self { "FAVORITES_TITLE" }
+}
+
 struct ListView: View {
     @ObservedObject var viewModel: ListViewModel
 
@@ -17,14 +22,14 @@ struct ListView: View {
                     NavigationLink(destination: DetailViewFactory.view(character: character)) {
                         CharacterCell(character: character)
                     }
-                    .navigationTitle("Rick and Morty")
+                    .navigationTitle(.title)
                     .task {
                         await viewModel.checkCurrentCharacter(character: character)
                     }
                 }
             }
             .toolbar {
-                NavigationLink("Favorites") {
+                NavigationLink(.favorites) {
                     FavoritesViewFactory.view()
                 }
             }

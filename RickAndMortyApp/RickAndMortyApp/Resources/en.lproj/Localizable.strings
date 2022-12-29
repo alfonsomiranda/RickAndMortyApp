@@ -1,0 +1,12 @@
+/* 
+  Localizable.strings
+  RickAndMortyApp
+
+  Created by Alfonso Miranda on 29/12/22.
+  
+*/
+
+"APP_TITLE" = "Rick and Morty";
+"FAVORITES_TITLE" = "Favorites";
+"REMOVE_FAVORITE" = "Remove from favorites";
+"ADD_FAVORITE" = "Add to favorites";

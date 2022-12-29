@@ -8,6 +8,15 @@
 import XCTest
 @testable import RickAndMortyApp
 
+private extension URL {
+    static var defaultURL: Self { URL(string: "http://google.com")! }
+}
+
+private extension Int {
+    static var okHttpCode: Self { 200 }
+    static var koHttpCode: Self { 400 }
+}
+
 class CharacterRepositoryTests: XCTestCase {
     private var networking: NetworkingMock!
     private var repository: CharacterRepository!
@@ -33,8 +42,8 @@ class CharacterRepositoryTests: XCTestCase {
     func testGetCharactersWhenSuccess() async throws {
         do {
             networking.result = try .success(JSONEncoder().encode(characters))
-            networking.response = HTTPURLResponse(url: URL(string: "http://google.com")!,
-                                                  statusCode: 200,
+            networking.response = HTTPURLResponse(url: .defaultURL,
+                                                  statusCode: .okHttpCode,
                                                   httpVersion: "",
                                                   headerFields: nil)!
             repository.api = APIRest(networking: networking)
@@ -48,23 +57,23 @@ class CharacterRepositoryTests: XCTestCase {
     func testGetCharactersWhenErrorCode() async throws {
         do {
             networking.result = try .success(JSONEncoder().encode(characters))
-            networking.response = HTTPURLResponse(url: URL(string: "http://google.com")!,
-                                                  statusCode: 400,
+            networking.response = HTTPURLResponse(url: .defaultURL,
+                                                  statusCode: .koHttpCode,
                                                   httpVersion: "",
                                                   headerFields: nil)!
             repository.api = APIRest(networking: networking)
             let newCharacters = try await repository.getCharacters(1)
             XCTAssertNil(newCharacters)
         } catch(let error) {
-            XCTAssertEqual((error as? APIError), .httpError(error: 400))
+            XCTAssertEqual((error as? APIError), .httpError(error: .koHttpCode))
         }
     }
 
     func testGetCharactersWhenFail() async throws {
         do {
             networking.result = .failure(APIError.generic)
-            networking.response = HTTPURLResponse(url: URL(string: "http://google.com")!,
-                                                  statusCode: 200,
+            networking.response = HTTPURLResponse(url: .defaultURL,
+                                                  statusCode: .okHttpCode,
                                                   httpVersion: "",
                                                   headerFields: nil)!
             repository.api = APIRest(networking: networking)
