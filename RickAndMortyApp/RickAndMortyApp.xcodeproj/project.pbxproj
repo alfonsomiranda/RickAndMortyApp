@@ -48,6 +48,8 @@
 		F978F7022956141E00C4CA14 /* DataSourceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F978F7012956141E00C4CA14 /* DataSourceMock.swift */; };
 		F978F705295615D400C4CA14 /* characters.json in Resources */ = {isa = PBXBuildFile; fileRef = F978F704295615D400C4CA14 /* characters.json */; };
 		F978F78A295CC1FF00C4CA14 /* LocationRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F978F789295CC1FF00C4CA14 /* LocationRepositoryTests.swift */; };
+		F9AF3BBF295D957D00B8FA40 /* RemoveFavoriteUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9AF3BBE295D957D00B8FA40 /* RemoveFavoriteUseCase.swift */; };
+		F9AF3BC1295D95BF00B8FA40 /* IsFavoriteUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9AF3BC0295D95BF00B8FA40 /* IsFavoriteUseCase.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,6 +107,8 @@
 		F978F7012956141E00C4CA14 /* DataSourceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSourceMock.swift; sourceTree = "<group>"; };
 		F978F704295615D400C4CA14 /* characters.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = characters.json; sourceTree = "<group>"; };
 		F978F789295CC1FF00C4CA14 /* LocationRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationRepositoryTests.swift; sourceTree = "<group>"; };
+		F9AF3BBE295D957D00B8FA40 /* RemoveFavoriteUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveFavoriteUseCase.swift; sourceTree = "<group>"; };
+		F9AF3BC0295D95BF00B8FA40 /* IsFavoriteUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IsFavoriteUseCase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -280,6 +284,8 @@
 				F978F6C8295369D000C4CA14 /* GetCharactersUseCase.swift */,
 				F978F6D32954BB2A00C4CA14 /* GetFavoritesUseCase.swift */,
 				F978F6D52954BE4F00C4CA14 /* AddNewFavoriteUseCase.swift */,
+				F9AF3BBE295D957D00B8FA40 /* RemoveFavoriteUseCase.swift */,
+				F9AF3BC0295D95BF00B8FA40 /* IsFavoriteUseCase.swift */,
 				F978F6E62955C56F00C4CA14 /* GetLocationUseCase.swift */,
 			);
 			path = UseCases;
@@ -496,9 +502,11 @@
 				F978F6DF2955BC5D00C4CA14 /* DetailViewModel.swift in Sources */,
 				F978F6B52953649F00C4CA14 /* ListView.swift in Sources */,
 				F978F6C2295366CC00C4CA14 /* CharacterRepository.swift in Sources */,
+				F9AF3BBF295D957D00B8FA40 /* RemoveFavoriteUseCase.swift in Sources */,
 				F978F679295361A000C4CA14 /* RickAndMortyAppApp.swift in Sources */,
 				F978F6AE295363D300C4CA14 /* API.swift in Sources */,
 				F978F6D02954B76D00C4CA14 /* UserDefaultStorage.swift in Sources */,
+				F9AF3BC1295D95BF00B8FA40 /* IsFavoriteUseCase.swift in Sources */,
 				F978F6DB2955BA1500C4CA14 /* FavoritesViewModel.swift in Sources */,
 				F978F6D62954BE4F00C4CA14 /* AddNewFavoriteUseCase.swift in Sources */,
 				F978F6D42954BB2A00C4CA14 /* GetFavoritesUseCase.swift in Sources */,

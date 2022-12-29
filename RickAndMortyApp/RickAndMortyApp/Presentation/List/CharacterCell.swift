@@ -35,7 +35,7 @@ struct CharacterCell: View {
                 .frame(maxWidth: .size, maxHeight: .size)
                 .cornerRadius(10)
 
-                VStack {
+                VStack(alignment: .leading) {
                     Text(character?.name ?? "")
                     Text(character?.species ?? "")
                 }

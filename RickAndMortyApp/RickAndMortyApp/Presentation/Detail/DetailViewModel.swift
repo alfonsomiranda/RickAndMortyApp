@@ -10,14 +10,23 @@ import Foundation
 class DetailViewModel: ObservableObject {
     var addNewFavoriteUseCase: AddNewFavoriteUseCase?
     var getLocationUseCase: GetLocationUseCase?
+    var isFavoriteUseCase: IsFavoriteFavoritesUseCase?
+    var removeFavoriteUseCase: RemoveFavoriteUseCase?
     var character: Character?
     
     @Published var location: Location? = nil
+    @Published var isFavorite: Bool = false
 
-    init(character: Character, getLocationUseCase: GetLocationUseCase, addNewFavoriteUseCase: AddNewFavoriteUseCase) {
+    init(character: Character,
+         getLocationUseCase: GetLocationUseCase,
+         addNewFavoriteUseCase: AddNewFavoriteUseCase,
+         removeFavoriteUseCase: RemoveFavoriteUseCase,
+         isFavoriteUseCase: IsFavoriteFavoritesUseCase) {
         self.character = character
         self.getLocationUseCase = getLocationUseCase
         self.addNewFavoriteUseCase = addNewFavoriteUseCase
+        self.removeFavoriteUseCase = removeFavoriteUseCase
+        self.isFavoriteUseCase = isFavoriteUseCase
     }
 
     @MainActor
@@ -35,9 +44,20 @@ class DetailViewModel: ObservableObject {
         }
     }
 
-    func saveCharacters() {
+    func isCharacterFavorite() {
         if let character = character {
-            self.addNewFavoriteUseCase?.execute(character: character)
+            isFavorite = isFavoriteUseCase?.execute(character: character) ?? false
         }
+    }
+
+    func updateFavoriteCharacters() {
+        if let character = character {
+            if isFavorite {
+                self.removeFavoriteUseCase?.execute(character: character)
+            } else {
+                self.addNewFavoriteUseCase?.execute(character: character)
+            }
+        }
+        isCharacterFavorite()
     }
 }

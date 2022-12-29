@@ -7,22 +7,40 @@
 
 import SwiftUI
 
+private extension CGFloat {
+    static var size: Self { 250 }
+}
+
 struct DetailView: View {
     @ObservedObject var viewModel: DetailViewModel
 
     var body: some View {
         VStack {
-            if let character = viewModel.character {
-                CharacterCell(character: character)
-            }
+            AsyncImage(
+                url: URL(string: viewModel.character?.image ?? "")!,
+                content: { image in
+                    image.resizable()
+                },
+                placeholder: {
+                    Image("placeholder").resizable()
+                }
+            )
+            .aspectRatio(contentMode: .fit)
+            .frame(maxWidth: .size, maxHeight: .size)
+            .cornerRadius(10)
+
             Text(viewModel.location?.name ?? "")
-            Button("Favorito") {
-                viewModel.saveCharacters()
+            Text(viewModel.location?.type ?? "")
+            Text(viewModel.location?.dimension ?? "")
+            let favoriteTitle = (viewModel.isFavorite) ? "Remove favorite" : "Add favorite"
+            Button(favoriteTitle) {
+                viewModel.updateFavoriteCharacters()
             }
             Spacer()
         }
         .navigationTitle(viewModel.character?.name ?? "")
         .onAppear {
+            viewModel.isCharacterFavorite()
             Task {
                 await viewModel.getLocationDetail()
             }

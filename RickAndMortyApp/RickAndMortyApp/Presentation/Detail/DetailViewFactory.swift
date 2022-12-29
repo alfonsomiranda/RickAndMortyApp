@@ -17,7 +17,9 @@ private extension DetailViewFactory {
     static func viewModel(character: Character) -> DetailViewModel {
         DetailViewModel(character: character,
                         getLocationUseCase: GetLocationUseCaseImplementation(repository: locationRepository()),
-                        addNewFavoriteUseCase: AddNewFavoriteUseCaseImplementation(repository: repository()))
+                        addNewFavoriteUseCase: AddNewFavoriteUseCaseImplementation(repository: repository()),
+                        removeFavoriteUseCase: RemoveFavoriteUseCaseImplementation(repository: repository()),
+                        isFavoriteUseCase: IsFavoriteFavoritesUseCaseImplementation(repository: repository()))
     }
 
     static func repository() -> FavoriteRepository {
