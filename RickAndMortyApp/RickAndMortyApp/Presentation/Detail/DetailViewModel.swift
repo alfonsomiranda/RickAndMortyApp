@@ -8,14 +8,13 @@
 import Foundation
 
 class DetailViewModel: ObservableObject {
-    var addNewFavoriteUseCase: AddNewFavoriteUseCase?
-    var getLocationUseCase: GetLocationUseCase?
-    var isFavoriteUseCase: IsFavoriteFavoritesUseCase?
-    var removeFavoriteUseCase: RemoveFavoriteUseCase?
-    var character: Character?
+    private var addNewFavoriteUseCase: AddNewFavoriteUseCase
+    private var getLocationUseCase: GetLocationUseCase
+    private var isFavoriteUseCase: IsFavoriteFavoritesUseCase
+    private var removeFavoriteUseCase: RemoveFavoriteUseCase
+    private var character: Character
     
-    @Published var location: Location? = nil
-    @Published var isFavorite: Bool = false
+    @Published var viewInfo: ViewInfo?
 
     init(character: Character,
          getLocationUseCase: GetLocationUseCase,
@@ -31,33 +30,33 @@ class DetailViewModel: ObservableObject {
 
     @MainActor
     func getLocationDetail() async {
-        guard let character = character else { return }
-
-        let result = await getLocationUseCase?.execute(characterId: character.id)
+        let result = await getLocationUseCase.execute(characterId: character.id)
         switch result {
         case .success(let location):
-            self.location = location
+            self.viewInfo = ViewInfo(character: character,
+                                     location: location,
+                                     isFavorite: isCharacterFavorite())
         case .failure(let error):
             debugPrint(error)
-        default:
-            debugPrint("Default")
         }
     }
 
-    func isCharacterFavorite() {
-        if let character = character {
-            isFavorite = isFavoriteUseCase?.execute(character: character) ?? false
-        }
+    func isCharacterFavorite() -> Bool {
+        isFavoriteUseCase.execute(character: character)
     }
 
     func updateFavoriteCharacters() {
-        if let character = character {
-            if isFavorite {
-                self.removeFavoriteUseCase?.execute(character: character)
-            } else {
-                self.addNewFavoriteUseCase?.execute(character: character)
-            }
+        if isCharacterFavorite() {
+            self.removeFavoriteUseCase.execute(character: character)
+        } else {
+            self.addNewFavoriteUseCase.execute(character: character)
         }
-        isCharacterFavorite()
+        self.viewInfo?.isFavorite.toggle()
     }
+}
+
+struct ViewInfo {
+    let character: Character
+    let location: Location
+    var isFavorite: Bool
 }

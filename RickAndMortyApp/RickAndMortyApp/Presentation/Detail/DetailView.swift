@@ -21,31 +21,32 @@ struct DetailView: View {
 
     var body: some View {
         VStack {
-            AsyncImage(
-                url: URL(string: viewModel.character?.image ?? "")!,
-                content: { image in
-                    image.resizable()
-                },
-                placeholder: {
-                    Image("placeholder").resizable()
-                }
-            )
-            .aspectRatio(contentMode: .fit)
-            .frame(maxWidth: .size, maxHeight: .size)
-            .cornerRadius(10)
+            if let url = URL(string: viewModel.viewInfo?.character.image ?? "") {
+                AsyncImage(
+                    url: url,
+                    content: { image in
+                        image.resizable()
+                    },
+                    placeholder: {
+                        Image("placeholder").resizable()
+                    }
+                )
+                .aspectRatio(contentMode: .fit)
+                .frame(maxWidth: .size, maxHeight: .size)
+                .cornerRadius(10)
+            }
 
-            Text(viewModel.location?.name ?? "")
-            Text(viewModel.location?.type ?? "")
-            Text(viewModel.location?.dimension ?? "")
-            let favoriteTitle: LocalizedStringKey = (viewModel.isFavorite) ? .removeFavorites : .addFavorites
+            Text(viewModel.viewInfo?.location.name ?? "")
+            Text(viewModel.viewInfo?.location.type ?? "")
+            Text(viewModel.viewInfo?.location.dimension ?? "")
+            let favoriteTitle: LocalizedStringKey = (viewModel.viewInfo?.isFavorite ?? false) ? .removeFavorites : .addFavorites
             Button(favoriteTitle) {
                 viewModel.updateFavoriteCharacters()
             }
             Spacer()
         }
-        .navigationTitle(viewModel.character?.name ?? "")
+        .navigationTitle(viewModel.viewInfo?.character.name ?? "")
         .onAppear {
-            viewModel.isCharacterFavorite()
             Task {
                 await viewModel.getLocationDetail()
             }

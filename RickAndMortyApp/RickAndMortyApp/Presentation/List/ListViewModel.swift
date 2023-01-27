@@ -9,7 +9,7 @@ import Foundation
 
 class ListViewModel: ObservableObject {
     @Published var characters: [Character] = []
-    var getCharacterUseCase: GetCharactersUseCase?
+    private var getCharacterUseCase: GetCharactersUseCase
 
     init(getCharacterUseCase: GetCharactersUseCase) {
         self.getCharacterUseCase = getCharacterUseCase
@@ -17,14 +17,12 @@ class ListViewModel: ObservableObject {
 
     @MainActor
     func getCharacters() async {
-        let result = await getCharacterUseCase?.execute()
+        let result = await getCharacterUseCase.execute()
         switch result {
         case .success(let characters):
             self.characters.append(contentsOf: characters)
         case .failure(let error):
             debugPrint(error)
-        default:
-            debugPrint("Default")
         }
     }
 
