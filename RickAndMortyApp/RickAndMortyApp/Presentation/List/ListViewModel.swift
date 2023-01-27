@@ -7,8 +7,15 @@
 
 import Foundation
 
+enum ViewState: Equatable {
+    case success(characters: [Character])
+    case loading
+    case error
+}
+
 class ListViewModel: ObservableObject {
-    @Published var characters: [Character] = []
+    @Published var viewState: ViewState = .loading
+    private var characters: [Character] = []
     private var getCharacterUseCase: GetCharactersUseCase
 
     init(getCharacterUseCase: GetCharactersUseCase) {
@@ -21,8 +28,9 @@ class ListViewModel: ObservableObject {
         switch result {
         case .success(let characters):
             self.characters.append(contentsOf: characters)
-        case .failure(let error):
-            debugPrint(error)
+            viewState = .success(characters: self.characters)
+        case .failure(_):
+            viewState = .error
         }
     }
 
